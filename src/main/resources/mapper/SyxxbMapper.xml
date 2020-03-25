@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sys.mapper.SyxxbMapper" >
+  <resultMap id="BaseResultMap" type="com.sys.model.Syxxb" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="tid" property="tid" jdbcType="INTEGER" />
+    <result column="sysid" property="sysid" jdbcType="INTEGER" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="fbtime" property="fbtime" jdbcType="TIMESTAMP" />
+    <result column="sfwc" property="sfwc" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cid, tid, sysid, info, fbtime, sfwc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from syxxb
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="getSyxxbList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from syxxb
+        where 1=1
+        <if test="info != null and info!=''">
+          and info like #{info}
+        </if>
+        order by fbtime
+    </select>
+
+    <select id="getSyxxbByTid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from syxxb
+        where tid = #{tid,jdbcType=INTEGER}
+    </select>
+
+    <select id="getSyxxbByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from syxxb
+        where cid = #{cid,jdbcType=INTEGER}
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from syxxb
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sys.model.Syxxb" >
+    insert into syxxb (id, cid, tid, 
+      sysid, info, fbtime, 
+      sfwc)
+    values (#{id,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, 
+      #{sysid,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{fbtime,jdbcType=TIMESTAMP}, 
+      #{sfwc,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sys.model.Syxxb" >
+    insert into syxxb
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="tid != null" >
+        tid,
+      </if>
+      <if test="sysid != null" >
+        sysid,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+      <if test="fbtime != null" >
+        fbtime,
+      </if>
+      <if test="sfwc != null" >
+        sfwc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null" >
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="sysid != null" >
+        #{sysid,jdbcType=INTEGER},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="fbtime != null" >
+        #{fbtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sfwc != null" >
+        #{sfwc,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sys.model.Syxxb" >
+    update syxxb
+    <set >
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null" >
+        tid = #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="sysid != null" >
+        sysid = #{sysid,jdbcType=INTEGER},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="fbtime != null" >
+        fbtime = #{fbtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sfwc != null" >
+        sfwc = #{sfwc,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sys.model.Syxxb" >
+    update syxxb
+    set cid = #{cid,jdbcType=INTEGER},
+      tid = #{tid,jdbcType=INTEGER},
+      sysid = #{sysid,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR},
+      fbtime = #{fbtime,jdbcType=TIMESTAMP},
+      sfwc = #{sfwc,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

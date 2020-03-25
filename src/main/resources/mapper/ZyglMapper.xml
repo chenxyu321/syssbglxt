@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.mapper.ZyglMapper">
+  <resultMap id="BaseResultMap" type="com.sys.model.Zygl">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="zname" jdbcType="VARCHAR" property="zname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, zname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zygl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="getZyglList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zygl
+        where 1=1
+        <if test="zname != null and zname!=''">
+          and zname like  #{zname}
+        </if>
+        order by id
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zygl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sys.model.Zygl">
+    insert into zygl (id, zname)
+    values (#{id,jdbcType=INTEGER}, #{zname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sys.model.Zygl">
+    insert into zygl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="zname != null">
+        zname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="zname != null">
+        #{zname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sys.model.Zygl">
+    update zygl
+    <set>
+      <if test="zname != null">
+        zname = #{zname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sys.model.Zygl">
+    update zygl
+    set zname = #{zname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

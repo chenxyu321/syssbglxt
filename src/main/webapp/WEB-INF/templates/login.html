@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>用户登录</title>
+		<meta charset="utf-8">
+		<link href="static/login/css/style.css" rel='stylesheet' type='text/css' />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+	 <!-----start-main---->
+	 <div class="main">
+		<div class="login-form">
+			<h1>欢迎来到实验室设备仪器管理系统</h1>
+					<div class="head">
+						<img src="static/login/images/user.png" alt=""/>
+					</div>
+				<form action="/Login" method="post">
+						<input type="text" name="username" class="text" required>
+						<input type="password" name="password">
+						<span th:text="${errmsg}"></span>
+						<div class="submit">
+							<input type="submit" value="登录" >
+					</div>
+				</form>
+			</div>
+			<!--//End-login-form-->
+			 <!-----start-copyright---->
+   					<div class="copy-right">
+						<p>Copyright &copy; 2019--2020.nana All rights reserved.</p>
+					</div>
+				<!-----//end-copyright---->
+		</div>
+			 <!-----//end-main---->
+</body>
+</html>

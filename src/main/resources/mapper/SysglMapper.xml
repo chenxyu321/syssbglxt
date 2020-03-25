@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.mapper.SysglMapper">
+  <resultMap id="BaseResultMap" type="com.sys.model.Sysgl">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sysname" jdbcType="VARCHAR" property="sysname" />
+    <result column="lxid" jdbcType="INTEGER" property="lxid" />
+    <result column="bh" jdbcType="VARCHAR" property="bh" />
+    <result column="lc" jdbcType="VARCHAR" property="lc" />
+    <result column="fzrid" jdbcType="VARCHAR" property="fzrid" />
+    <result column="sfyy" jdbcType="INTEGER" property="sfyy" />
+    <result column="yyrid" jdbcType="INTEGER" property="yyrid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sysname, lxid, bh, lc, fzrid, sfyy, yyrid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sysgl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="getSysglList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sysgl
+        where 1=1
+        <if test="sysname != null and sysname!=''">
+          and sysname like  #{sysname}
+        </if>
+        <if test="bh != null and bh!=''">
+          and bh like #{bh}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="getSysglByKysys" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from sysgl
+      where yyrid=#{tid}
+      and sfyy=1
+      order by id desc
+    </select>
+
+    <select id="getSysglByteacher" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from sysgl
+      where yyrid = #{tid}
+      order by id desc
+    </select>
+
+    <select id="getSysglByBh" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sysgl
+        where bh = #{bh}
+    </select>
+
+    <select id="getSysglBySfyy" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sysgl
+        where sfyy = #{sfyy,jdbcType=INTEGER}
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sysgl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sys.model.Sysgl">
+    insert into sysgl (id, sysname, lxid, 
+      bh, lc, fzrid, sfyy, 
+      yyrid)
+    values (#{id,jdbcType=INTEGER}, #{sysname,jdbcType=VARCHAR}, #{lxid,jdbcType=INTEGER}, 
+      #{bh,jdbcType=VARCHAR}, #{lc,jdbcType=VARCHAR}, #{fzrid,jdbcType=VARCHAR}, #{sfyy,jdbcType=INTEGER},
+      #{yyrid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sys.model.Sysgl">
+    insert into sysgl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sysname != null">
+        sysname,
+      </if>
+      <if test="lxid != null">
+        lxid,
+      </if>
+      <if test="bh != null">
+        bh,
+      </if>
+      <if test="lc != null">
+        lc,
+      </if>
+      <if test="fzrid != null">
+        fzrid,
+      </if>
+      <if test="sfyy != null">
+        sfyy,
+      </if>
+      <if test="yyrid != null">
+        yyrid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sysname != null">
+        #{sysname,jdbcType=VARCHAR},
+      </if>
+      <if test="lxid != null">
+        #{lxid,jdbcType=INTEGER},
+      </if>
+      <if test="bh != null">
+        #{bh,jdbcType=VARCHAR},
+      </if>
+      <if test="lc != null">
+        #{lc,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrid != null">
+        #{fzrid,jdbcType=VARCHAR},
+      </if>
+      <if test="sfyy != null">
+        #{sfyy,jdbcType=INTEGER},
+      </if>
+      <if test="yyrid != null">
+        #{yyrid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sys.model.Sysgl">
+    update sysgl
+    <set>
+      <if test="sysname != null">
+        sysname = #{sysname,jdbcType=VARCHAR},
+      </if>
+      <if test="lxid != null">
+        lxid = #{lxid,jdbcType=INTEGER},
+      </if>
+      <if test="bh != null">
+        bh = #{bh,jdbcType=VARCHAR},
+      </if>
+      <if test="lc != null">
+        lc = #{lc,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrid != null">
+        fzrid = #{fzrid,jdbcType=VARCHAR},
+      </if>
+      <if test="sfyy != null">
+        sfyy = #{sfyy,jdbcType=INTEGER},
+      </if>
+      <if test="yyrid != null">
+        yyrid = #{yyrid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sys.model.Sysgl">
+    update sysgl
+    set sysname = #{sysname,jdbcType=VARCHAR},
+      lxid = #{lxid,jdbcType=INTEGER},
+      bh = #{bh,jdbcType=VARCHAR},
+      lc = #{lc,jdbcType=VARCHAR},
+      fzrid = #{fzrid,jdbcType=VARCHAR},
+      sfyy = #{sfyy,jdbcType=INTEGER},
+      yyrid = #{yyrid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

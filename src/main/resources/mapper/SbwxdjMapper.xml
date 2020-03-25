@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.mapper.SbwxdjMapper">
+  <resultMap id="BaseResultMap" type="com.sys.model.Sbwxdj">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sbid" jdbcType="INTEGER" property="sbid" />
+    <result column="wssj" jdbcType="TIMESTAMP" property="wssj" />
+    <result column="wxr" jdbcType="VARCHAR" property="wxr" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="ztid" jdbcType="INTEGER" property="ztid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sbid, wssj, wxr, money, info, ztid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sbwxdj
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="getSbwxdjList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sbwxdj
+        where 1=1
+        <if test="info!=null and info!=''">
+          and info like #{info}
+        </if>
+        order by wssj
+    </select>
+
+    <select id="getSbwxdjByZtid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sbwxdj
+        where ztid = #{ztid,jdbcType=INTEGER}
+    </select>
+
+    <select id="getSbwxdjBySbid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sbwxdj
+        where sbid = #{sbid,jdbcType=INTEGER}
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sbwxdj
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sys.model.Sbwxdj">
+    insert into sbwxdj (id, sbid, wssj, 
+      wxr, money, info, ztid
+      )
+    values (#{id,jdbcType=INTEGER}, #{sbid,jdbcType=INTEGER}, #{wssj,jdbcType=TIMESTAMP}, 
+      #{wxr,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{ztid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sys.model.Sbwxdj">
+    insert into sbwxdj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sbid != null">
+        sbid,
+      </if>
+      <if test="wssj != null">
+        wssj,
+      </if>
+      <if test="wxr != null">
+        wxr,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+      <if test="ztid != null">
+        ztid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sbid != null">
+        #{sbid,jdbcType=INTEGER},
+      </if>
+      <if test="wssj != null">
+        #{wssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wxr != null">
+        #{wxr,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="ztid != null">
+        #{ztid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sys.model.Sbwxdj">
+    update sbwxdj
+    <set>
+      <if test="sbid != null">
+        sbid = #{sbid,jdbcType=INTEGER},
+      </if>
+      <if test="wssj != null">
+        wssj = #{wssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wxr != null">
+        wxr = #{wxr,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="ztid != null">
+        ztid = #{ztid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sys.model.Sbwxdj">
+    update sbwxdj
+    set sbid = #{sbid,jdbcType=INTEGER},
+      wssj = #{wssj,jdbcType=TIMESTAMP},
+      wxr = #{wxr,jdbcType=VARCHAR},
+      money = #{money,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR},
+      ztid = #{ztid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

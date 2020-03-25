@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>实验课程浏览</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="static/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="static/layuiadmin/style/admin.css" media="all">
+<!--  <script src="static/js/jquery-2.1.3.min.js"></script>-->
+</head>
+<body>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>实验管理</cite></a>
+    <a><cite>实验课程浏览</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header card-title">实验课程浏览</div>
+        <div class="layui-card-body">
+          <table class="layui-hide" id="test-table-cellEdit" lay-filter="test-table-cellEdit"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="static/layui.js"></script>
+<script th:inline="none">
+  layui.config({
+    base: 'static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'table','form'], function(){
+    var $ = layui.$;
+    var table = layui.table;
+    var form = layui.form;
+    var exportData;
+    var loading = layer.load();
+    var ins1 = table.render({
+
+      elem: '#test-table-cellEdit'
+      ,method:'post'
+      , url: '/selectsykcll'
+      , cols: [[
+        {field: 'sysid', title: '实验室名称', width: 160, sort: true},
+        {field: 'bh', title: '实验室编号', width: 160, sort: true},
+        {field: 'info', title: '实验简介', width: 160,sort:true},
+        {field: 'fbtime', title: '发布时间', width: 160,sort:true}
+      ]]
+      , done: function (res, curr, count) {
+        layer.close(loading);
+        exportData = res.data;
+      }
+    })
+  });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.mapper.SysbglMapper">
+  <resultMap id="BaseResultMap" type="com.sys.model.Sysbgl">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sbname" jdbcType="VARCHAR" property="sbname" />
+    <result column="bh" jdbcType="VARCHAR" property="bh" />
+    <result column="sysid" jdbcType="INTEGER" property="sysid" />
+    <result column="cgsj" jdbcType="TIMESTAMP" property="cgsj" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="ztid" jdbcType="INTEGER" property="ztid" />
+    <result column="sfbx" jdbcType="INTEGER" property="sfbx" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sbname, bh, sysid, cgsj, price, ztid, sfbx, info, img
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sysbgl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="getSysbglList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sysbgl
+        where 1=1
+        <if test="sbname != null and sbname!=''">
+          and sbname like  #{sbname}
+        </if>
+        <if test="bh != null and bh!=''">
+          and bh like #{bh}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="getSysbglByBh" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sysbgl
+        where bh=#{bh}
+    </select>
+
+    <select id="getSysbglByky" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from sysbgl
+      where ztid=0 and sfbx=0
+    </select>
+
+    <select id="getSysbglBySysid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sysbgl
+        where sysid = #{sysid,jdbcType=INTEGER}
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sysbgl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sys.model.Sysbgl">
+    insert into sysbgl (id, sbname, bh, 
+      sysid, cgsj, price, 
+      ztid, sfbx, info, img
+      )
+    values (#{id,jdbcType=INTEGER}, #{sbname,jdbcType=VARCHAR}, #{bh,jdbcType=VARCHAR}, 
+      #{sysid,jdbcType=INTEGER}, #{cgsj,jdbcType=TIMESTAMP}, #{price,jdbcType=INTEGER}, 
+      #{ztid,jdbcType=INTEGER}, #{sfbx,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sys.model.Sysbgl">
+    insert into sysbgl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sbname != null">
+        sbname,
+      </if>
+      <if test="bh != null">
+        bh,
+      </if>
+      <if test="sysid != null">
+        sysid,
+      </if>
+      <if test="cgsj != null">
+        cgsj,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="ztid != null">
+        ztid,
+      </if>
+      <if test="sfbx != null">
+        sfbx,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sbname != null">
+        #{sbname,jdbcType=VARCHAR},
+      </if>
+      <if test="bh != null">
+        #{bh,jdbcType=VARCHAR},
+      </if>
+      <if test="sysid != null">
+        #{sysid,jdbcType=INTEGER},
+      </if>
+      <if test="cgsj != null">
+        #{cgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="ztid != null">
+        #{ztid,jdbcType=INTEGER},
+      </if>
+      <if test="sfbx != null">
+        #{sfbx,jdbcType=INTEGER},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sys.model.Sysbgl">
+    update sysbgl
+    <set>
+      <if test="sbname != null">
+        sbname = #{sbname,jdbcType=VARCHAR},
+      </if>
+      <if test="bh != null">
+        bh = #{bh,jdbcType=VARCHAR},
+      </if>
+      <if test="sysid != null">
+        sysid = #{sysid,jdbcType=INTEGER},
+      </if>
+      <if test="cgsj != null">
+        cgsj = #{cgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="ztid != null">
+        ztid = #{ztid,jdbcType=INTEGER},
+      </if>
+      <if test="sfbx != null">
+        sfbx = #{sfbx,jdbcType=INTEGER},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sys.model.Sysbgl">
+    update sysbgl
+    set sbname = #{sbname,jdbcType=VARCHAR},
+      bh = #{bh,jdbcType=VARCHAR},
+      sysid = #{sysid,jdbcType=INTEGER},
+      cgsj = #{cgsj,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=INTEGER},
+      ztid = #{ztid,jdbcType=INTEGER},
+      sfbx = #{sfbx,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

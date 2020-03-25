@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.mapper.SyslxMapper">
+  <resultMap id="BaseResultMap" type="com.sys.model.Syslx">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="lx" jdbcType="VARCHAR" property="lx" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, lx
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from syslx
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="getSyslxList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from syslx
+        where 1=1
+        <if test="lx != null and lx!=''">
+          and lx like #{lx}
+        </if>
+        order by id desc
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from syslx
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sys.model.Syslx">
+    insert into syslx (id, lx)
+    values (#{id,jdbcType=INTEGER}, #{lx,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sys.model.Syslx">
+    insert into syslx
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="lx != null">
+        lx,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lx != null">
+        #{lx,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sys.model.Syslx">
+    update syslx
+    <set>
+      <if test="lx != null">
+        lx = #{lx,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sys.model.Syslx">
+    update syslx
+    set lx = #{lx,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

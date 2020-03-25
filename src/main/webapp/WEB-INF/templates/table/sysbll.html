@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>实验设备浏览</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="static/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="static/layuiadmin/style/admin.css" media="all">
+<!--  <script src="static/js/jquery-2.1.3.min.js"></script>-->
+  <style type="text/css">
+    .layui-table-cell{
+      height:auto!important;
+      white-space:normal;
+    }
+  </style>
+</head>
+<body>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>信息浏览</cite></a>
+    <a><cite>实验设备浏览</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header card-title">实验设备浏览</div>
+        <div class="layui-card-body">
+          <table class="layui-hide" id="test-table-cellEdit" lay-filter="test-table-cellEdit"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="static/layui.js"></script>
+<script th:inline="none">
+  layui.config({
+    base: 'static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'table','form'], function(){
+    var $ = layui.$;
+    var table = layui.table;
+    var form = layui.form;
+    var exportData;
+    var loading = layer.load();
+    var ins1 = table.render({
+
+      elem: '#test-table-cellEdit'
+      ,method:'post'
+      , url: '/selectsysbll'
+      , cols: [[
+        {field: 'sbname', title: '设备名称', width: 120, sort: true}
+        , {field: 'bh', title: '设备编号', width: 120,sort:true}
+        , {field: 'sysid', title: '所属实验室', width: 125,sort:true}
+        , {field: 'cgsj', title: '采购时间', width: 160,sort:true}
+        , {field: 'price', title: '价格', width: 80,sort:true}
+        , {field: 'ztid', title: '设备状态', width: 120,sort:true}
+        , {field: 'sfbx', title: '是否保修', width: 120,sort:true}
+        , {field: 'info', title: '设备描述', width: 120,sort:true, edit:'text'}
+        , {field: 'img', title: '图片', width: 200,sort:true,templet:function (d) {
+            return '<img src='+d.img+'>';
+          }}
+      ]]
+      , done: function (res, curr, count) {
+        layer.close(loading);
+        exportData = res.data;
+      }
+    })
+  });
+
+</script>
+</body>
+</html>

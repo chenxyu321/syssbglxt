@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>借用设备管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="static/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="static/layuiadmin/style/admin.css" media="all">
+<!--  <script src="static/js/jquery-2.1.3.min.js"></script>-->
+  <style type="text/css">
+    .layui-table-cell{
+      height:auto!important;
+      white-space:normal;
+    }
+  </style>
+</head>
+<body>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>信息管理</cite></a>
+    <a><cite>借用设备管理</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header card-title">借用设备管理</div>
+        <div class="layui-card-body">
+          <form class="layui-form" lay-filter="component-form-group" id="search_submits" onsubmit="return false">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-useradmin-formlist">
+              <div class="layui-inline">
+                <a class="layui-btn btn-add btn-default" id="btn-add">借用</a>
+                <a class="layui-btn btn-add btn-default" id="export">导出数据</a>
+              </div>
+            </div>
+<!--            <div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">-->
+<!--            -->
+<!--            </div>-->
+          </form>
+          <table class="layui-hide" id="test-table-cellEdit" lay-filter="test-table-cellEdit"></table>
+          <script type="text/html" id="test-table-operate-barDemo">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="gh">归还</a>
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="static/layui.js"></script>
+<script th:inline="none">
+  layui.config({
+    base: 'static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'table','form'], function(){
+    var $ = layui.$;
+    var table = layui.table;
+    var form = layui.form;
+    var exportData;
+    var loading = layer.load();
+    var ins1 = table.render({
+
+      elem: '#test-table-cellEdit'
+      ,method:'post'
+      , url: '/selectjysbgl'
+      , cols: [[
+        {field: 'sbname', title: '设备名称', width: 120, sort: true}
+        , {field: 'bh', title: '设备编号', width: 120,sort:true}
+        , {field: 'jysj', title: '借用时间', width: 200,sort:true}
+        , {field: 'ghsj', title: '归还时间', width: 200,sort:true}
+        , {field: 'info', title: '借用备注', width: 120,sort:true}
+        , {width: 178, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo'}
+      ]]
+      , done: function (res, curr, count) {
+        layer.close(loading);
+        exportData = res.data;
+      }
+    })
+    $("#export").click(function(){
+      table.exportFile(ins1.config.id,exportData, 'xls');
+    })
+
+    //监听工具条
+    table.on('tool(test-table-cellEdit)', function(obj){
+      var data = obj.data;
+      if(obj.event === 'gh'){
+        if (data.ztid==0)
+          layer.msg('已归还无需再次归还！',{icon:2});
+        else if (data.ztid==2)
+          layer.msg('请耐心等待管理员审核！',{icon:2});
+        else if (data.ztid==3)
+          layer.msg('请求被拒绝无需归还！',{icon:2});
+        else
+        layer.confirm('确认归还么', function(index){
+          $.ajax({
+            url:"/ghjysb",
+            data:{id:data.id,bh:data.bh},
+            type:"post",
+            dataType:"json",
+            success: function (result) {
+              layer.msg('已归还',{icon:1});
+              ins1.reload();
+            },
+            error:function (e) {
+              layer.msg('归还失败',{icon:2});
+            }
+          })
+          layer.close(index);
+        });
+      }
+    });
+    $('#btn-add').on('click', function () {
+      layer.open({
+        type: 2,
+        title: '借用设备',
+        maxmin: true,
+        area: ['420px', '330px'],
+        shadeClose: false, //点击遮罩关闭
+        content: 'Jumpto?url=insert/jysbgl',
+      });
+    });
+  });
+
+</script>
+</body>
+</html>
